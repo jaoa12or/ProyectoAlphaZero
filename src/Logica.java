@@ -766,6 +766,7 @@ public Nodo harta(){
         ArrayList <Nodo> positivo = new ArrayList <Nodo> ();
         ArrayList <Nodo> cero = new ArrayList <Nodo> ();
         ArrayList <Nodo> negativo = new ArrayList <Nodo> ();
+        Nodo aux = new Nodo(blanco, negro, null, prof, dim, manzanas);
         
         for(int i=0; i<lista.size();i++)
         {
@@ -779,34 +780,36 @@ public Nodo harta(){
         
         if(!(positivo.isEmpty()))
         {
-            Nodo aux = positivo.get(0);
+            aux = positivo.get(0);
             for(int i = 0; i<positivo.size(); i++)
             {
                if(aux.getBlanco().getManzanas() < positivo.get(i).getBlanco().getManzanas())
                    aux = positivo.get(i);
             }
-            return aux;
+            
         }
         else if(!(cero.isEmpty()))
         {
-            Nodo aux = cero.get(0);
+            aux = cero.get(0);
             for(int i = 0; i<cero.size(); i++)
             {
                if(aux.getBlanco().getManzanas() < cero.get(i).getBlanco().getManzanas())
                    aux = cero.get(i);
             }
-            return aux;
+            
         }
-        else
+        else if(!(negativo.isEmpty()))
         {
-            Nodo aux = negativo.get(0);
+            aux = negativo.get(0);
             for(int i = 0; i<negativo.size(); i++)
             {
                if(aux.getBlanco().getManzanas() < negativo.get(i).getBlanco().getManzanas())
                    aux = negativo.get(i);
             }
-            return aux;            
+                       
         }
+        
+        return aux;
               
     
 }    

@@ -21,7 +21,8 @@ public class Interfaz extends JFrame implements MouseListener{
     private ImageIcon imagenNegro;
     private ImageIcon imagenManzana;
     private GridLayout layout;
-
+    private int xActual;
+    private int yActual;
     private int movimientoX;
     private int movimientoY;
     private boolean turnoNegro;
@@ -45,7 +46,7 @@ public class Interfaz extends JFrame implements MouseListener{
         jPanel2.setBackground(new Color(0,0,0,0));
         listaCuadros = new ArrayList <JButton> ();      
         turnoNegro = false;     
-        manzanaBox.setSelectedItem(0);
+        manzanaBox.setText("3");
         tamanoBox.setSelectedItem(0);
         profundidadText.setEnabled(true);
         profundidadText.setText("8");
@@ -69,7 +70,7 @@ public class Interfaz extends JFrame implements MouseListener{
         jPanel2 = new javax.swing.JPanel();
         manzanasBlanco = new javax.swing.JLabel();
         manzanasNegro = new javax.swing.JLabel();
-        manzanaBox = new javax.swing.JComboBox<>();
+        manzanaBox = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         botonJugar = new javax.swing.JButton();
@@ -151,22 +152,13 @@ public class Interfaz extends JFrame implements MouseListener{
         jPanel1.add(manzanasNegro);
         manzanasNegro.setBounds(990, 330, 50, 30);
 
-        manzanaBox.setFont(new java.awt.Font("Cambria", 2, 18)); // NOI18N
-        manzanaBox.setForeground(new java.awt.Color(102, 102, 255));
-        manzanaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "3", "5", "7", " " }));
-        manzanaBox.setFocusable(false);
-        manzanaBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                manzanaBoxItemStateChanged(evt);
-            }
-        });
         manzanaBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 manzanaBoxActionPerformed(evt);
             }
         });
         jPanel1.add(manzanaBox);
-        manzanaBox.setBounds(880, 80, 70, 28);
+        manzanaBox.setBounds(880, 80, 70, 30);
 
         jTextField2.setEditable(false);
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
@@ -196,7 +188,7 @@ public class Interfaz extends JFrame implements MouseListener{
 
         tamanoBox.setFont(new java.awt.Font("Cambria", 2, 18)); // NOI18N
         tamanoBox.setForeground(new java.awt.Color(102, 102, 255));
-        tamanoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3x3", "4x4", "5x5", "6x6" }));
+        tamanoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6x6" }));
         tamanoBox.setFocusable(false);
         tamanoBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -227,6 +219,7 @@ public class Interfaz extends JFrame implements MouseListener{
         jPanel1.add(reiniciar);
         reiniciar.setBounds(980, 220, 90, 30);
 
+        profundidadText.setEditable(false);
         profundidadText.setFont(new java.awt.Font("Cambria", 2, 14)); // NOI18N
         jPanel1.add(profundidadText);
         profundidadText.setBounds(880, 120, 70, 30);
@@ -275,14 +268,6 @@ public class Interfaz extends JFrame implements MouseListener{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void manzanaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manzanaBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_manzanaBoxActionPerformed
-
-    private void manzanaBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_manzanaBoxItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_manzanaBoxItemStateChanged
 
     private void botonJugarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonJugarMouseClicked
         // TODO add your handling code here:
@@ -415,30 +400,33 @@ public void pintaCuadros(){
     private void empezarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empezarMouseReleased
            
         //Guarda variable no. de manzanas
-        int index = manzanaBox.getSelectedIndex();
-        if(index == 0)
-            manzanas = 1;
-        else if(index == 1)
-            manzanas = 3;
-        else if(index == 2)
-            manzanas = 5;
-        else if(index == 3)
-            manzanas = 7;
+        int index = Integer.parseInt(manzanaBox.getText());
+        if(!(index %2 == 0)&&(index < 34))
+        {
+            manzanas = index;
+        
+        }
+        else{
+           JOptionPane.showMessageDialog(null,"Este no es un valor válido para las manzanas.");
+        
+        }
+            
+        
         
         //Guarda variable tamaño de la matriz
         index = tamanoBox.getSelectedIndex();
         if(index == 0)
-            tamano = 3;
-        else if(index == 1)
-            tamano = 4;
-        else if(index == 2)
-            tamano = 5;
-        else if(index == 3)
-            tamano = 6;    
+        {
+            tamano = 6;
+        
+        }
+            
+           
         
         //Guarda variable profundidad     
-        profundidad = Integer.parseInt(profundidadText.getText());
-        if (profundidad < 1)
+       // profundidad = Integer.parseInt(profundidadText.getText());
+       profundidad = 6;
+       if (profundidad < 1)
         {    
             profundidad = 1;
             profundidadText.setText("1");
@@ -461,6 +449,10 @@ public void pintaCuadros(){
     private void reiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reiniciarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_reiniciarActionPerformed
+
+    private void manzanaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manzanaBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_manzanaBoxActionPerformed
  
     /**
      * @param args the command line arguments
@@ -499,7 +491,7 @@ public void reiniciar()
         jPanel2.setBackground(new Color(0,0,0,0));
         listaCuadros = new ArrayList <JButton> ();      
         turnoNegro = false;     
-        manzanaBox.setSelectedItem(0);
+        manzanaBox.setText("3");
         tamanoBox.setSelectedItem(0);
         profundidadText.setEnabled(true);
         profundidadText.setText("10");  
@@ -576,7 +568,7 @@ public void ejecucion(int x, int y, String pasos)
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JComboBox<String> manzanaBox;
+    private javax.swing.JTextField manzanaBox;
     private javax.swing.JLabel manzanasBlanco;
     private javax.swing.JLabel manzanasNegro;
     private javax.swing.JLabel nodosL;
@@ -597,11 +589,45 @@ public void ejecucion(int x, int y, String pasos)
 			if( click.getSource() == listaCuadros.get(i))
 			{                             
 				if(turnoNegro)
-				{                                    
+				{  
+                                    xActual = caballoNegro.getPosicionX();
+                                    yActual = caballoNegro.getPosicionY();
                                     movimientoX = i/tamano;
                                     movimientoY = i%tamano;
-                                    turnoNegro = false;
-                                    turnoNegro(i);
+                                    
+                                    if((movimientoX == (caballoBlanco.getPosicionX()))&& (movimientoY == (caballoBlanco.getPosicionY())))
+                                    {
+                                         JOptionPane.showMessageDialog(null,"Este movimiento no es posible, intentalo."); 
+                                        
+                                    }
+                                    
+                                    
+                                    else if((movimientoX == (xActual-2))&& (movimientoY == (yActual-1)) || 
+                                        (movimientoX == (xActual-2))&& (movimientoY == (yActual+1)) ||
+                                        (movimientoX == (xActual-1))&& (movimientoY == (yActual-2)) ||
+                                        (movimientoX == (xActual-1))&& (movimientoY == (yActual+2)) ||
+                                        (movimientoX == (xActual+1))&& (movimientoY == (yActual-2)) ||
+                                        (movimientoX == (xActual+1))&& (movimientoY == (yActual+2)) ||
+                                        (movimientoX == (xActual+2))&& (movimientoY == (yActual-1)) ||
+                                        (movimientoX == (xActual+2))&& (movimientoY == (yActual+1)))
+                                    {
+                                        
+                                        turnoNegro = false;
+                                        turnoNegro(i);
+                                       
+                                    
+                                    
+                                    }
+                                    
+                                    
+                                   
+                                    else{
+                                    
+                                        JOptionPane.showMessageDialog(null,"Este movimiento no es posible, intentalo."); 
+                                    }
+                                    
+                                   
+                                    
 
 				}			
 			}
